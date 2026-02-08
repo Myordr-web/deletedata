@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delete My Data | MyOrdr</title>
+
+  <style>
+    :root {
+      --bg: #FFF9F1;
+      --card: #ffffff;
+      --text: #1F1F1F;
+      --muted: #6B6B6B;
+      --accent: #E4572E;
+      --border: rgba(0,0,0,.08);
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+
+    .wrap {
+      width: min(720px, 100%);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .logo {
+      height: 44px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    form {
+      margin-top: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .two { grid-template-columns: 1fr; }
+    }
+
+    .confirm {
+      font-size: 14px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    button {
+      margin-top: 8px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .fineprint {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <!-- Place logo2.png in the same folder as this file -->
+        <img src="logo2.png" alt="MyOrdr logo" class="logo" />
+        <div>
+          <h1>Delete My Data</h1>
+          <p>Request deletion of your MyOrdr account and associated personal data.</p>
+        </div>
+      </div>
+
+      <form id="deleteForm">
+        <div class="two">
+          <div class="row">
+            <label for="name">Full name</label>
+            <input id="name" required />
+          </div>
+          <div class="row">
+            <label for="email">Email used on MyOrdr</label>
+            <input id="email" type="email" required />
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="row">
+            <label for="username">MyOrdr username (optional)</label>
+            <input id="username" placeholder="@username" />
+          </div>
+          <div class="row">
+            <label for="platform">Platform</label>
+            <select id="platform" required>
+              <option value="">Select…</option>
+              <option>iOS</option>
+              <option>Android</option>
+              <option>Web</option>
+              <option>Not sure</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="details">Additional details (optional)</label>
+          <textarea id="details" placeholder="Anything that helps us identify your account."></textarea>
+        </div>
+
+        <label class="confirm">
+          <input type="checkbox" required />
+          I confirm that I want MyOrdr to delete my personal data associated with this account.
+        </label>
+
+        <button type="submit">Submit deletion request</button>
+
+        <div class="fineprint">
+          This form opens your email app and sends the request to <strong>hellomyordr@gmail.com</strong>.
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("deleteForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const platform = document.getElementById("platform").value;
+      const details = document.getElementById("details").value.trim();
+
+      const subject = encodeURIComponent("MyOrdr Data Deletion Request");
+      const body = encodeURIComponent(
+        `Please delete my MyOrdr account data.\n\n` +
+        `Name: ${name}\n` +
+        `Email: ${email}\n` +
+        `Username: ${username || "(not provided)"}\n` +
+        `Platform: ${platform}\n\n` +
+        `Details:\n${details || "(none)"}\n\n` +
+        `Submitted: ${new Date().toISOString()}`
+      );
+
+      window.location.href = `mailto:hellomyordr@gmail.com?subject=${subject}&body=${body}`;
+    });
+  </script>
+</body>
+</html>
